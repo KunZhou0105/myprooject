@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libvec2d.so -o libvec2d.so CMakeFiles/vec2d.dir/vec2d.cpp.o 

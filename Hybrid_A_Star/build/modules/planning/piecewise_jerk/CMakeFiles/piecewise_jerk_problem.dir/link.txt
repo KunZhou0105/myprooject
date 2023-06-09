@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libpiecewise_jerk_problem.so -o libpiecewise_jerk_problem.so CMakeFiles/piecewise_jerk_problem.dir/piecewise_jerk_problem.cpp.o /usr/local/lib/libosqp.a -ldl 

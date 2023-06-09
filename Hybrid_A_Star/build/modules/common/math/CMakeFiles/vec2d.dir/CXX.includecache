@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/conan/myproject/Hybrid_A_Star/modules/common/math/vec2d.cpp
+vec2d.h
+/home/conan/myproject/Hybrid_A_Star/modules/common/math/vec2d.h
+cmath
+-
+
+/home/conan/myproject/Hybrid_A_Star/modules/common/math/vec2d.h
+cmath
+-
+string
+-
+

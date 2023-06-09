@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/conan/myproject/Hybrid_A_Star/modules/planning/common/common_data.h
+memory
+-
+string
+-
+vector
+-
+cmath
+-
+
+/home/conan/myproject/Hybrid_A_Star/modules/planning/piecewise_jerk/piecewise_jerk_problem.cpp
+../../../modules/planning/piecewise_jerk/piecewise_jerk_problem.h
+/home/conan/myproject/Hybrid_A_Star/modules/planning/piecewise_jerk/piecewise_jerk_problem.h
+
+/home/conan/myproject/Hybrid_A_Star/modules/planning/piecewise_jerk/piecewise_jerk_problem.h
+tuple
+-
+utility
+-
+vector
+-
+iostream
+-
+osqp/osqp.h
+/home/conan/myproject/Hybrid_A_Star/modules/planning/piecewise_jerk/osqp/osqp.h
+../../../modules/planning/common/common_data.h
+/home/conan/myproject/Hybrid_A_Star/modules/planning/common/common_data.h
+

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/conan/myproject/Hybrid_A_Star/build/devel/setup.sh
