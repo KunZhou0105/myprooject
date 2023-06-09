@@ -152,6 +152,7 @@ double SpeedData::TotalLength() const {
   return back().s() - front().s();
 }
 
+
 std::string SpeedData::DebugString() const {
   const auto limit = std::min(
       size(), static_cast<size_t>(FLAGS_trajectory_point_num_for_debug));
