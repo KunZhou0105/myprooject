@@ -9,7 +9,7 @@ https://github.com/rst-tu-dortmund/teb_local_planner
 ## 编译依赖项
 
 * g2o 
-* Eigen 
+* Eigen 3.3.4
 * Boost 
 * OpenCV (可选，用于显示地图和路径)
 
