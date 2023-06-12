@@ -1,56 +1,45 @@
-teb_local_planner ROS Package
-=============================
+# teb_local_planner
+teb local planner without ros, teb 局部路径规划算法，非ROS版本移植，可以自行在项目中当作一个库进行调用
 
-The teb_local_planner package implements a plugin to the base_local_planner of the 2D navigation stack. 
-The underlying method called Timed Elastic Band locally optimizes the robot's trajectory with respect to trajectory execution time, 
-separation from obstacles and compliance with kinodynamic constraints at runtime.
+原始的代码和相关论文请参考原始的teb工程
+https://github.com/rst-tu-dortmund/teb_local_planner
 
-Refer to http://wiki.ros.org/teb_local_planner for more information and tutorials.
+# 调用流程
 
-Build status of the *melodic-devel* branch:
-- ROS Buildfarm (Melodic): [![Melodic Status](http://build.ros.org/buildStatus/icon?job=Mdev__teb_local_planner__ubuntu_bionic_amd64)](http://build.ros.org/job/Mdev__teb_local_planner__ubuntu_bionic_amd64/)
+## 编译依赖项
+
+* g2o 
+* Eigen 
+* Boost 
+* OpenCV (可选，用于显示地图和路径)
+
+## 代码运行
+
+代码运行成功时，会出现一个窗口和两个滑动条，通过滑动条可以控制起始点和目标点的角度，从而控制轨迹的形状。
+![example](example.png)
 
 
-## Citing the Software
+## teb库调用流程
 
-*Since a lot of time and effort has gone into the development, please cite at least one of the following publications if you are using the planner for your own research:*
+本代码核心在于能够将teb算法作为一个开源第三方库来调用，而不采用ros的数据接口，稍微阅读了解原理后也可以直接修改库来实现自己的序需求。
 
-- C. Rösmann, F. Hoffmann and T. Bertram: Integrated online trajectory planning and optimization in distinctive topologies, Robotics and Autonomous Systems, Vol. 88, 2017, pp. 142–153.
-- C. Rösmann, W. Feiten, T. Wösch, F. Hoffmann and T. Bertram: Trajectory modification considering dynamic constraints of autonomous robots. Proc. 7th German Conference on Robotics, Germany, Munich, May 2012, pp 74–79.
-- C. Rösmann, W. Feiten, T. Wösch, F. Hoffmann and T. Bertram: Efficient trajectory optimization using a sparse model. Proc. IEEE European Conference on Mobile Robots, Spain, Barcelona, Sept. 2013, pp. 138–143.
-- C. Rösmann, F. Hoffmann and T. Bertram: Planning of Multiple Robot Trajectories in Distinctive Topologies, Proc. IEEE European Conference on Mobile Robots, UK, Lincoln, Sept. 2015.
-- C. Rösmann, F. Hoffmann and T. Bertram: Kinodynamic Trajectory Optimization and Control for Car-Like Robots, IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), Vancouver, BC, Canada, Sept. 2017.
+因此，通常的调用流程如下
+* 加载默认参数
+`TebConfig config;` ,其中在构造函数内保留了所有默认参数值，可以自行修改
 
-<a href="https://www.buymeacoffee.com/croesmann" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-black.png" alt="Buy Me A Coffee" height="31px" width="132px" ></a>
+* 设置障碍物
+`std::vector<ObstaclePtr> obst_vector;`
 
-## Videos
+* 设置机器人形状
+`RobotFootprintModelPtr robot_model = boost::make_shared<CircularRobotFootprint>(0.4);`
 
-The left of the following videos presents features of the package and shows examples from simulation and real robot situations.
-Some spoken explanations are included in the audio track of the video. 
-The right one demonstrates features introduced in version 0.2 (supporting car-like robots and costmap conversion). Please watch the left one first.
+* 构造路径规划类
+`auto planner = new TebOptimalPlanner(config, &obst_vector, robot_model, visual, &via_points);`
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=e1Bw6JOgHME" target="_blank"><img src="http://img.youtube.com/vi/e1Bw6JOgHME/0.jpg" 
-alt="teb_local_planner - An Optimal Trajectory Planner for Mobile Robots" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=o5wnRCzdUMo" target="_blank"><img src="http://img.youtube.com/vi/o5wnRCzdUMo/0.jpg" 
-alt="teb_local_planner - Car-like Robots and Costmap Conversion" width="240" height="180" border="10" /></a>
+* 搜索路径
+`planner->plan(start,end);`
 
-## License
-
-The *teb_local_planner* package is licensed under the BSD license.
-It depends on other ROS packages, which are listed in the package.xml. They are also BSD licensed.
-
-Some third-party dependencies are included that are licensed under different terms:
- - *Eigen*, MPL2 license, http://eigen.tuxfamily.org
- - *libg2o* / *g2o* itself is licensed under BSD, but the enabled *csparse_extension* is licensed under LGPL3+, 
-   https://github.com/RainerKuemmerle/g2o. [*CSparse*](http://www.cise.ufl.edu/research/sparse/CSparse/) is included as part of the *SuiteSparse* collection, http://www.suitesparse.com. 
- - *Boost*, Boost Software License, http://www.boost.org
-
-All packages included are distributed in the hope that they will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the licenses for more details.
-
-## Requirements
-
-Install dependencies (listed in the *package.xml* and *CMakeLists.txt* file) using *rosdep*:
-
-    rosdep install teb_local_planner
+* 获取规划得到的轨迹 
+`planner->getFullTrajectory(path);`
 
 
